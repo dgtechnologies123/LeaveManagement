@@ -344,18 +344,23 @@ public class AddEmployee extends javax.swing.JFrame {
         });
     }
 
-    public void connection() throws SQLException {
+   public void connection() {
+      //  Connection conn = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/leavemanagement";
-            String user = "root";
-            String pass = "root";
-            con = DriverManager.getConnection(url, user, pass);
-            System.out.println("Conection done");
+             Class.forName("org.sqlite.JDBC");
+            // db parameters
+            String url = "jdbc:sqlite:leavemanagement.db";
+            // create a connection to the database
+            con = DriverManager.getConnection(url);
+            
+            System.out.println("Connection to SQLite has been established.");
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         } catch (ClassNotFoundException ex) {
-
+            Logger.getLogger(AddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        
         }
-
     }
 
     public void connect() throws SQLException {
@@ -379,7 +384,16 @@ public class AddEmployee extends javax.swing.JFrame {
         System.out.println("Date: " + DOJ);   
         String Selected_item = (String) emp_status.getSelectedItem();
         String Qualfication=txt_qual.getText();
-
+        System.out.println("id: "+id_);
+        System.out.println("name: "+name);
+        System.out.println("address: "+addr);
+        System.out.println("phone: "+phone);
+        System.out.println("DOB: "+DOB);
+        System.out.println("email: "+email);
+        System.out.println("name: "+designation);
+        System.out.println("name: "+DOJ);
+        System.out.println("name: "+Qualfication);
+        
         PreparedStatement preparedStmt = con.prepareStatement(query);
          preparedStmt.setString(1,id_);
         preparedStmt.setString(2, name);
@@ -394,26 +408,26 @@ public class AddEmployee extends javax.swing.JFrame {
         
         preparedStmt.execute();
 
-        String query1 = " insert into employee_status(emp_id,emp_status,DOJ)"
-                + " values ( ?, ?, ?)";
-
-        PreparedStatement preparedStmt1 = con.prepareStatement(query1);
-        //  preparedStmt.setInt(1,9);
-        preparedStmt1.setString(1, id_);
-        preparedStmt1.setString(2, Selected_item);
-        preparedStmt1.setString(3, DOJ);
-        preparedStmt1.execute();
-
-       String query2 = " insert into emp_before_conf(emp_id,unpaid,comp_off)"
-                + " values ( ?, ?, ?)";
-
-        PreparedStatement preparedStmt2 = con.prepareStatement(query2);
-        //  preparedStmt.setInt(1,9);
-        preparedStmt2.setString(1, id_);
-        preparedStmt2.setFloat(2,0f);
-        preparedStmt2.setFloat(3,0f);
-        preparedStmt2.execute();
-        
+//        String query1 = " insert into employee_status(emp_id,emp_status,DOJ)"
+//                + " values ( ?, ?, ?)";
+//
+//        PreparedStatement preparedStmt1 = con.prepareStatement(query1);
+//        //  preparedStmt.setInt(1,9);
+//        preparedStmt1.setString(1, id_);
+//        preparedStmt1.setString(2, Selected_item);
+//        preparedStmt1.setString(3, DOJ);
+//        preparedStmt1.execute();
+//
+//       String query2 = " insert into emp_before_conf(emp_id,unpaid,comp_off)"
+//                + " values ( ?, ?, ?)";
+//
+//        PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+//        //  preparedStmt.setInt(1,9);
+//        preparedStmt2.setString(1, id_);
+//        preparedStmt2.setFloat(2,0f);
+//        preparedStmt2.setFloat(3,0f);
+//        preparedStmt2.execute();
+//        
         
         
         con.close();
